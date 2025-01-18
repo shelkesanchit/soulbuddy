@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Your Horoscope Results</title>
+    <style>
+        .container { max-width: 800px; margin: 0 auto; padding: 20px; font-family: Arial, sans-serif; }
+        .section { margin-bottom: 30px; padding: 20px; border: 1px solid #ddd; border-radius: 5px; background: white; }
+        .traits-list { display: flex; gap: 10px; flex-wrap: wrap; margin: 10px 0; }
+        .trait-tag { background: #f0f0f0; padding: 5px 10px; border-radius: 15px; }
+        .predictions { margin-top: 20px; }
+        .lucky-elements { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px; }
+        body { background-color: #f5f5f5; }
+        
+        .controls {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding: 15px;
+            background: white;
+            border-radius: 5px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        
+        select {
+            padding: 8px;
+            border-radius: 4px;
+            border: 1px solid #ddd;
+            font-size: 14px;
+            width: 200px;
+        }
+        
+        .download-btn {
+            background: #4CAF50;
+            color: white;
+            padding: 8px 16px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 14px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: background 0.3s ease;
+        }
+        
+        .download-btn:hover {
+            background: #45a049;
+        }
+        
+        h1, h2, h3 { color: #333; }
+        
+        .prediction-item {
+            margin: 15px 0;
+            padding: 10px;
+            background: #f9f9f9;
+            border-radius: 4px;
+        }
+        
+        ul { padding-left: 20px; }
+        li { margin: 5px 0; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="controls">
+            <div class="language-select">
+                <label for="language">Select Language / भाषा चुनें:</label>
+                <select id="language" onchange="changeLanguage()">
+                    <option value="en">English</option>
+                    <option value="hi">हिंदी (Hindi)</option>
+                    <option value="mr">मराठी (Marathi)</option>
+                    <option value="gu">ગુજરાતી (Gujarati)</option>
+                    <option value="ta">தமிழ் (Tamil)</option>
+                    <option value="kn">ಕನ್ನಡ (Kannada)</option>
+                    <option value="te">తెలుగు (Telugu)</option>
+                    <option value="bn">বাংলা (Bengali)</option>
+                    <option value="ml">മലയാളം (Malayalam)</option>
+                    <option value="pa">ਪੰਜਾਬੀ (Punjabi)</option>
+                    <option value="or">ଓଡ଼ିଆ (Odia)</option>
+                </select>
+            </div>
+            
+            <button class="download-btn" onclick="downloadPDF()">
+                <svg class="download-icon" width="16" height="16" viewBox="0 0 24 24">
+                    <path fill="currentColor" d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z"/>
+                </svg>
+                Download PDF
+            </button>
+        </div>
+
+        <h1>Hello, {{name}}!</h1>
+        <p>You are a {{birth_period}}.</p>
+
+        <div class="section">
+            <h2>Your Western Zodiac Sign: {{horoscope.western.sign}}</h2>
+            <p><strong>Element:</strong> {{horoscope.western.element}}</p>
+            <p><strong>Quality:</strong> {{horoscope.western.quality}}</p>
+            <p><strong>Ruling Planet:</strong> {{horoscope.western.ruler}}</p>
+            
+            <h3>Your Key Traits:</h3>
+            <div class="traits-list">
+                {% for trait in horoscope.western.traits %}
+                    <span class="trait-tag">{{trait}}</span>
+                {% endfor %}
+            </div>
+
+            <h3>Favorable Times:</h3>
+            <div class="traits-list">
+                {% for time in horoscope.western.favorable_times %}
+                    <span class="trait-tag">{{time}}</span>
+                {% endfor %}
+            </div>
+
+            <div class="predictions">
+                <h3>Your Predictions</h3>
+                <div class="prediction-item">
+                    <p><strong>Daily:</strong> {{horoscope.western.predictions.daily}}</p>
+                </div>
+                <div class="prediction-item">
+                    <p><strong>Weekly:</strong> {{horoscope.western.predictions.weekly}}</p>
+                </div>
+                <div class="prediction-item">
+                    <p><strong>Monthly:</strong> {{horoscope.western.predictions.monthly}}</p>
+                </div>
+                <div class="prediction-item">
+                    <p><strong>Yearly:</strong> {{horoscope.western.predictions.yearly}}</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>Lucky Elements</h2>
+            <div class="lucky-elements">
+                <div>
+                    <h3>Lucky Colors</h3>
+                    <ul>
+                        {% for color in horoscope.lucky.colors %}
+                            <li>{{color}}</li>
+                        {% endfor %}
+                    </ul>
+                </div>
+                <div>
+                    <h3>Lucky Number</h3>
+                    <p>{{horoscope.lucky.number}}</p>
+                </div>
+                <div>
+                    <h3>Lucky Days</h3>
+                    <ul>
+                        {% for day in horoscope.lucky.days %}
+                            <li>{{day}}</li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Add html2pdf.js library -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+    
+    <script>
+        function changeLanguage() {
+            const language = document.getElementById('language').value;
+            // In a real implementation, this would make an API call to get translated content
+            alert('Language changed to: ' + language);
+        }
+
+        function downloadPDF() {
+            const element = document.querySelector('.container');
+            const opt = {
+                margin: 1,
+                filename: 'horoscope-result.pdf',
+                image: { type: 'jpeg', quality: 0.98 },
+                html2canvas: { scale: 2 },
+                jsPDF: { unit: 'in', format: 'letter', orientation: 'portrait' }
+            };
+
+            html2pdf().set(opt).from(element).save();
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,11 @@
+# requirements.txt
+Flask==2.0.1
+Werkzeug==2.0.3
+Jinja2==3.0.3
+itsdangerous==2.0.1
+click==8.0.4
+pandas==1.4.4
+python-dateutil==2.8.2
+pyhoroscope==0.1.2
+hindu-astrology==1.0.3
+swisseph==2.10.3

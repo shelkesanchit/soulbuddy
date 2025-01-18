@@ -1,0 +1,51 @@
+<!-- templates/index.html -->
+<!DOCTYPE html>
+<html>
+<head>
+    <title>SoulBuddy - Advanced Spiritual Guide</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <div class="card">
+            <h1>SoulBuddy</h1>
+            <p class="subtitle">Your Advanced Astrological Guide</p>
+            
+            <form action="{{ url_for('calculate') }}" method="post">
+                <div class="form-group">
+                    <label for="name">Your Name:</label>
+                    <input type="text" id="name" name="name" required 
+                           placeholder="Enter your full name">
+                </div>
+                
+                <div class="form-group">
+                    <label for="dob">Date of Birth:</label>
+                    <input type="date" id="dob" name="dob" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="time">Time of Birth:</label>
+                    <input type="time" id="time" name="time" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="latitude">Birth Place Latitude:</label>
+                    <input type="number" id="latitude" name="latitude" step="any" 
+                           placeholder="e.g., 28.6139" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="longitude">Birth Place Longitude:</label>
+                    <input type="number" id="longitude" name="longitude" step="any" 
+                           placeholder="e.g., 77.2090" required>
+                </div>
+                
+                <button type="submit">Get Detailed Reading</button>
+            </form>
+        </div>
+    </div>
+</body>
+</html>
+
+
+
